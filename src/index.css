@@ -1,13 +1,204 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700;1,800;1,900&family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,300;1,400&display=swap");
+
+:root {
+	/* SIZES */
+	--main-container-width: 140rem;
+	--header-content-size: min(80%, var(--main-container-width));
+	--main-content-size: min(60%, var(--main-container-width));
+	--grid-two-columns: repeat(2, minmax(min-content, 50%));
+
+	--color-primary: hsl(6, 82%, 73%);
+	--color-grad-1: hsl(43, 93%, 76%);
+	--color-grad-2: hsl(4, 84%, 73%);
+
+	--color-grey-light-1: hsl(20, 33%, 96%);
+	--color-grey-light-2: hsl(15, 13%, 94%);
+	--color-grey-light-3: hsl(15, 15%, 80%);
+	--color-grey-dark-1: hsl(15, 9%, 35%);
+	--color-grey-dark-2: hsl(15, 7%, 54%);
+	--color-white: hsl(0, 0%, 100%);
+
+	/* FONTS */
+	--primary-font: "Nunito", sans-serif;
+	--font-size-base: clamp(1.6rem, 2vw + 1rem, 2rem);
+	--font-weight-light: 300;
+	--font-weight-regular: 400;
+	--font-weight-regular-bold: 600;
+	--font-weight-bold: 700;
+	--line-height-base: 1.6;
+
+	--gradient: linear-gradient(
+		to right bottom,
+		var(--color-grad-1),
+		var(--color-grad-2)
+	);
+
+	--bp-large: 78.15em;
+	--bp-medium: 61.25em;
+	--bp-small: 37.5em;
+	--bp-smallest: 31.25em;
+
+	/* SPECIAL SHADOW */
+	--shadow: 220 27% 4%;
+	--shadow-strength: 1%;
+
+	--box-shadow: 0 -2px 5px 0 hsl(var(--shadow) /
+					calc(var(--shadow-strength) + 5%)),
+		0 1px 1px -2px hsl(var(--shadow) / calc(var(--shadow-strength) + 10%)),
+		0 2px 2px -2px hsl(var(--shadow) / calc(var(--shadow-strength) + 12%)),
+		0 5px 5px -2px hsl(var(--shadow) / calc(var(--shadow-strength) + 13%)),
+		0 9px 9px -2px hsl(var(--shadow) / calc(var(--shadow-strength) + 14%)),
+		0 16px 16px -2px hsl(var(--shadow) / calc(var(--shadow-strength) + 20%));
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+*,
+*::before,
+*::after {
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
+	user-select: none;
+}
+
+/*
+  3. Allow percentage-based heights in the application
+*/
+html {
+	font-size: 62.5%;
+	height: 100%;
+	box-sizing: border-box;
+
+	block-size: 100%;
+	inline-size: 100%;
+
+	overflow: hidden auto;
+	scroll-snap-type: y;
+
+	@media only screen and (max-width: var(--bp-medium)) {
+		font-size: 50%;
+	}
+}
+
+html > body > section {
+	scroll-snap-align: center; /* Check if this has to change later to start */
+}
+
+/* Set core root defaults */
+html:focus-within {
+	scroll-behavior: smooth;
+}
+
+/*
+  Typographic tweaks!
+  4. Add accessible line-height
+  5. Improve text rendering
+*/
+body {
+	font-family: var(--primary-font);
+	font-weight: var(--font-weight-regular);
+	font-size: var(--font-size-base);
+	background-image: var(--gradient);
+	background-size: cover;
+	background-repeat: no-repeat;
+	color: var(--color-grey-dark-1);
+	min-height: calc(100vh - 2 * 4vw);
+
+	line-height: var(--line-height-base);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	text-rendering: optimizeSpeed;
+}
+
+/*
+  6. Improve media defaults
+*/
+img,
+picture,
+video,
+canvas,
+svg {
+	display: block;
+	max-width: 100%;
+}
+
+a {
+	text-decoration: none;
+	color: inherit;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+	text-decoration-skip-ink: auto;
+}
+
+/*
+  7. Remove built-in form typography styles
+*/
+input,
+button,
+textarea,
+select {
+	font: inherit;
+}
+
+/*
+  8. Avoid text overflows
+*/
+p,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	overflow-wrap: break-word;
+}
+
+h1 {
+	/* animation: animated-text 4s steps(15, end) 1s 1 normal both,
+		animated-cursor 600ms steps(15, end) infinite; */
+}
+
+/*
+  9. Create a root stacking context
+*/
+#root,
+#__next {
+	isolation: isolate;
+}
+
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+	html:focus-within {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
+.hidden {
+	visibility: hidden;
+	opacity: 0;
+}
+
+.show {
+	visibility: visible !important;
+	opacity: 1 !important;
+}
+
+.active {
+	background-color: var(--color-grey-light-1);
+}
+
+.no-tb-padding {
+	border-top: 1px solid var(--color-grey-light-1);
+	/* margin-top: 1rem; */
+	padding-top: 0 !important;
+	padding-bottom: 0 !important;
 }
